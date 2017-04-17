@@ -10,7 +10,7 @@ def testFacebookScrape(search):
 	soup = BeautifulSoup(page, 'lxml')
 	
 	f = open('result.txt', 'w')
-	f.write(str(soup.get_text()))
+	f.write(soup.prettify().encode("UTF-8"))
 	f.close()
 
 testFacebookScrape("jonathan")	
