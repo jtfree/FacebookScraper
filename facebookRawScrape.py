@@ -9,13 +9,13 @@ def FacebookScrape(search, pageNumber):
         page = urllib2.urlopen("https://www.facebook.com/public?query=" + search + "&init=ffs&nomc=0&page=" + pageNumber)
         soup = BeautifulSoup(page, 'lxml')
         comments = soup.find_all(string=lambda text:isinstance(text,Comment))
-
-        comment = comments[1];
+        
+	comment = comments[1];
     
         soup2 = BeautifulSoup(comment, 'lxml')
 
         linkTags = soup2.find_all('a')
-        
+
         stringLinks=[]
         
         for link in linkTags:
@@ -33,10 +33,12 @@ def FacebookScrape(search, pageNumber):
         for link in profileLinks:
             soup3 = BeautifulSoup(link, 'lxml')
             trueLinks.append(soup3.find('a').get('href'))    
-        
+	
+	print("Writing to file")
+	        
         f = open('result' + pageNumber + '.txt', 'w')
         f.write("Name   Link \n")
-            
+     
         for link in trueLinks:
             profileScrape(link, f)
             
@@ -45,11 +47,9 @@ def FacebookScrape(search, pageNumber):
             
             
 def profileScrape(link, f):
-    print("Starting scrape for " + link)
-    page = urllib2.urlopen(link)
-    soup = BeautifulSoup(page, 'lxml')
-    name = soup.find('a', class_='_8_2').text
-    f.write((name + " " + link + "\n").encode("UTF-8"))
-#       f = open('result.txt', 'w')
-#       f.write(links.encode("UTF-8"))
-#       f.close()
+	print("Starting scrape for " + link)
+	page = urllib2.urlopen(link)
+	soup = BeautifulSoup(page, 'lxml')
+
+	name = soup.find('a', class_='_2nlw').text
+	f.write((name + " " + link + "\n").encode("UTF-8"))
